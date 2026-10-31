@@ -1,0 +1,31 @@
+clause_id,category,clause_type,policy_text
+PC001,Collision Coverage,COVERAGE,"This policy covers physical damage to the insured vehicle resulting from a collision with another vehicle or object, regardless of fault, subject to the applicable deductible."
+PC002,Collision Coverage,COVERAGE,"Damage arising from a single-vehicle collision, including striking a stationary object or guardrail, is covered under this policy."
+PC003,Collision Coverage,COVERAGE,Multi-vehicle collisions involving two or more insured or third-party vehicles are covered up to the policy limit.
+PC004,Collision Coverage,EXCLUSION,This policy does NOT cover collision damage if the insured vehicle was being driven by an unlicensed or unauthorized driver at the time of the incident.
+PC005,Collision Coverage,CONDITION,"In the event of a side, front, or rear collision, the insured must report the specific point of impact accurately in the claim narrative for the claim to be processed."
+PC006,Theft Coverage,COVERAGE,"This policy covers loss of the insured vehicle due to theft, provided a police report is filed within 24 hours of discovering the theft."
+PC007,Theft Coverage,EXCLUSION,Vehicle theft claims are NOT covered if the insured vehicle was left unlocked or with keys inside at the time of the theft.
+PC008,Theft Coverage,CONDITION,A valid police report is a mandatory condition for any vehicle theft claim; claims submitted without one will be denied.
+PC009,Property Damage,COVERAGE,Property damage to third-party vehicles or structures caused by the insured vehicle is covered up to the property damage liability limit stated in the policy schedule.
+PC010,Property Damage,EXCLUSION,This policy does NOT cover property damage caused intentionally by the insured or any household member.
+PC011,Property Damage,CONDITION,Claims involving reported property damage must include photographic or documentary evidence of the damage at the time of filing.
+PC012,Bodily Injury,COVERAGE,Medical expenses for bodily injury sustained by the insured or passengers as a result of a covered collision are reimbursed up to the injury claim limit.
+PC013,Bodily Injury,EXCLUSION,Bodily injury claims are NOT covered if the injury resulted from the insured operating the vehicle under the influence of alcohol or drugs.
+PC014,Bodily Injury,CONDITION,Injury claims exceeding the minor-injury threshold require supporting medical documentation from a licensed practitioner.
+PC015,Total Loss,COVERAGE,"If the cost of repairing the insured vehicle exceeds its actual cash value, the claim is settled as a total loss at the vehicle's pre-incident market value."
+PC016,Total Loss,CONDITION,Total loss settlements require an independent damage assessment confirming that repair costs exceed the total loss threshold.
+PC017,Minor Damage,COVERAGE,Trivial or minor damage not affecting the vehicle's structural integrity or safe operation is covered subject to a reduced payout under the minor-damage clause.
+PC018,High-Risk Activity Exclusion,EXCLUSION,"This policy does NOT cover any incident that occurs while the insured is engaged in high-risk recreational activities, including but not limited to skydiving, bungee jumping, or base jumping, at the time of loss."
+PC019,High-Risk Activity Exclusion,EXCLUSION,Claims arising directly from participation in extreme sports such as paintball or motor racing on a closed circuit are excluded from coverage.
+PC020,Reporting Requirements,CONDITION,"The insured must contact the appropriate authorities (police, fire, or ambulance) immediately following any incident involving injury, theft, or significant property damage."
+PC021,Reporting Requirements,CONDITION,All claims must be reported to the insurer within 30 days of the incident date; late reporting may result in denial of the claim.
+PC022,Reporting Requirements,CONDITION,"If witnesses were present at the scene of the incident, their contact details must be provided as part of the claim documentation."
+PC023,Deductible Clause,CONDITION,The insured is responsible for paying the policy deductible before any collision or comprehensive claim payout is issued.
+PC024,Deductible Clause,COVERAGE,"Higher deductible plans result in a lower annual premium, while lower deductible plans increase the annual premium payable by the insured."
+PC025,Vehicle Eligibility,CONDITION,Only vehicles registered under the insured's name or an immediate family member's name at the time of policy binding are eligible for coverage under this policy.
+PC026,Vehicle Eligibility,EXCLUSION,"This policy does NOT cover vehicles used for commercial purposes, including ride-sharing or delivery services, unless a commercial rider is explicitly added."
+PC027,Umbrella Coverage,COVERAGE,"Where an umbrella limit is specified in the policy schedule, it provides additional liability coverage beyond the standard policy limits for major incidents."
+PC028,Fraud Clause,EXCLUSION,"This policy does NOT cover any claim found to involve material misrepresentation, staged incidents, or falsified damage estimates by the insured."
+PC029,Fraud Clause,CONDITION,The insurer reserves the right to investigate any claim showing inconsistencies between the reported incident details and the supporting evidence before approving payout.
+PC030,Parked Vehicle Coverage,COVERAGE,"Damage to the insured vehicle while legally parked and unattended, caused by a third party or external event, is covered under comprehensive coverage."

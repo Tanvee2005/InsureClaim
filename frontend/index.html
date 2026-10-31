@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>InsureClaim AI</title>
+<style>
+:root{--bg:#070914;--card:rgba(255,255,255,.06);--bd:rgba(255,255,255,.12);--tx:#eef0ff;--mut:#9aa3c7;--p1:#7c5cff;--p2:#00e5ff;--p3:#ff4fd8;--ok:#2ee59d;--warn:#ffc233;--bad:#ff4d6d}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;overflow-x:hidden}
+.bg{position:fixed;inset:0;z-index:-1;background:radial-gradient(60% 50% at 15% 10%,rgba(124,92,255,.35),transparent),radial-gradient(50% 45% at 90% 20%,rgba(0,229,255,.25),transparent),radial-gradient(55% 50% at 60% 100%,rgba(255,79,216,.25),transparent);animation:drift 18s ease-in-out infinite alternate}
+@keyframes drift{to{transform:scale(1.15) translate(-2%,2%)}}
+header{display:flex;align-items:center;justify-content:space-between;padding:20px 5vw;flex-wrap:wrap;gap:12px}
+.logo{font-weight:800;font-size:1.5rem;letter-spacing:-.5px;display:flex;gap:10px;align-items:center}
+.logo i{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--p1),var(--p2),var(--p3));display:grid;place-items:center;font-style:normal;box-shadow:0 0 30px rgba(124,92,255,.7)}
+.grad{background:linear-gradient(90deg,var(--p2),var(--p1),var(--p3));-webkit-background-clip:text;background-clip:text;color:transparent}
+.pill{padding:6px 14px;border-radius:99px;background:var(--card);border:1px solid var(--bd);font-size:.8rem;color:var(--mut)}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--bad);margin-right:6px}.dot.on{background:var(--ok);box-shadow:0 0 10px var(--ok)}
+.hero{text-align:center;padding:10px 5vw 20px}.hero h1{font-size:clamp(2rem,5vw,3.6rem);margin:0 0 8px;letter-spacing:-1.5px}.hero p{color:var(--mut);max-width:680px;margin:0 auto}
+nav{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;padding:10px 5vw 24px}
+nav button{background:var(--card);border:1px solid var(--bd);color:var(--mut);padding:10px 18px;border-radius:99px;cursor:pointer;font-weight:600;transition:.25s;backdrop-filter:blur(10px)}
+nav button:hover{color:#fff;transform:translateY(-2px)}nav button.on{color:#fff;background:linear-gradient(135deg,var(--p1),var(--p3));border-color:transparent;box-shadow:0 8px 30px rgba(124,92,255,.5)}
+main{padding:0 5vw 60px;max-width:1400px;margin:auto}.tab{display:none;animation:in .45s}.tab.on{display:block}@keyframes in{from{opacity:0;transform:translateY(14px)}}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:20px;padding:22px;backdrop-filter:blur(18px);box-shadow:0 10px 40px rgba(0,0,0,.35)}
+.grid{display:grid;grid-template-columns:minmax(300px,420px) 1fr;gap:22px}@media(max-width:950px){.grid{grid-template-columns:1fr}}
+h3{margin:0 0 14px;font-size:1.05rem}label{display:block;font-size:.72rem;color:var(--mut);margin:10px 0 4px;text-transform:uppercase;letter-spacing:.8px}
+input,select,textarea{width:100%;background:rgba(0,0,0,.35);border:1px solid var(--bd);color:var(--tx);border-radius:12px;padding:10px 12px;font:inherit;outline:none;transition:.2s}
+input:focus,select:focus,textarea:focus{border-color:var(--p2);box-shadow:0 0 0 3px rgba(0,229,255,.15)}textarea{min-height:90px;resize:vertical}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn{width:100%;margin-top:16px;padding:13px;border:0;border-radius:14px;font-weight:700;font-size:1rem;color:#fff;cursor:pointer;background:linear-gradient(135deg,var(--p1),var(--p3),var(--p2));background-size:200% 200%;animation:sh 5s infinite;box-shadow:0 10px 30px rgba(124,92,255,.5);transition:.2s}
+.btn:hover{transform:translateY(-2px) scale(1.01)}.btn:disabled{opacity:.6;cursor:wait}@keyframes sh{50%{background-position:100% 50%}}
+.chips{display:flex;flex-wrap:wrap;gap:6px}.chip{padding:5px 11px;border-radius:99px;font-size:.75rem;background:rgba(124,92,255,.18);border:1px solid rgba(124,92,255,.4);cursor:pointer}
+.chip.s{background:rgba(255,255,255,.07);border-color:var(--bd);color:var(--mut);cursor:default}.chip.f{border-color:var(--bad);background:rgba(255,77,109,.15)}.chip.n{border-color:var(--ok);background:rgba(46,229,157,.12)}
+.verdict{border-radius:18px;padding:20px;display:flex;gap:18px;align-items:center;flex-wrap:wrap;border:1px solid}
+.verdict.ok{background:rgba(46,229,157,.1);border-color:var(--ok)}.verdict.warn{background:rgba(255,194,51,.1);border-color:var(--warn)}.verdict.danger{background:rgba(255,77,109,.12);border-color:var(--bad)}
+.verdict h2{margin:0;font-size:1.6rem;letter-spacing:-.5px}.verdict p{margin:4px 0 0;color:var(--mut)}
+.gauge{width:150px;height:92px}.stack>*+*{margin-top:18px}
+.bar{height:9px;border-radius:9px;background:rgba(255,255,255,.08);overflow:hidden}.bar>div{height:100%;border-radius:9px;transition:width .9s cubic-bezier(.2,.9,.2,1)}
+.e{background:linear-gradient(90deg,#14b87a,var(--ok))}.n{background:linear-gradient(90deg,#d99a00,var(--warn))}.c{background:linear-gradient(90deg,#d6204a,var(--bad))}
+.nl{display:grid;grid-template-columns:100px 1fr 46px;gap:8px;align-items:center;font-size:.78rem;color:var(--mut);margin:5px 0}
+.cl{border-radius:16px;padding:16px;background:rgba(0,0,0,.28);border:1px solid var(--bd);border-left:4px solid var(--mut);transition:.25s}.cl:hover{transform:translateX(4px);background:rgba(255,255,255,.05)}
+.cl.risk{border-left-color:var(--bad)}.cl.condition{border-left-color:var(--warn)}.cl.ok{border-left-color:var(--ok)}
+.cl .t{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px;font-size:.8rem}.cl p{margin:6px 0 10px;font-size:.92rem;line-height:1.5}
+.tag{padding:3px 9px;border-radius:7px;font-weight:700;font-size:.68rem;letter-spacing:.5px}
+.COVERAGE{background:rgba(46,229,157,.18);color:var(--ok)}.EXCLUSION{background:rgba(255,77,109,.18);color:var(--bad)}.CONDITION{background:rgba(255,194,51,.18);color:var(--warn)}
+.why{font-size:.82rem;padding:8px 10px;border-radius:9px;background:rgba(255,255,255,.06);margin-bottom:8px}
+.fx{display:grid;grid-template-columns:170px 1fr 56px;gap:10px;align-items:center;font-size:.82rem;margin:7px 0}.fx span:last-child{text-align:right;font-variant-numeric:tabular-nums}
+.pos{background:linear-gradient(90deg,#d6204a,var(--bad))}.neg{background:linear-gradient(90deg,#14b87a,var(--ok))}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:22px}.kpi{text-align:center}.kpi b{display:block;font-size:2.2rem;margin-top:4px}.kpi small{color:var(--mut)}
+table.cm{border-collapse:collapse;margin:auto}.cm td,.cm th{padding:10px 14px;text-align:center;font-size:.85rem}.cm td{border-radius:8px;font-weight:700}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:22px}.lib{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px}
+.empty{color:var(--mut);text-align:center;padding:50px 10px}.spin{display:inline-block;width:16px;height:16px;border:3px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:r .7s linear infinite;vertical-align:-3px;margin-right:8px}@keyframes r{to{transform:rotate(360deg)}}
+footer{text-align:center;color:var(--mut);font-size:.78rem;padding:20px}
+</style></head><body><div class="bg"></div>
+<header><div class="logo"><i>🛡️</i><span>Insure<span class="grad">Claim</span> AI</span></div><div class="pill" id="health"><span class="dot"></span>connecting…</div></header>
+<div class="hero"><h1>Claims intelligence, <span class="grad">powered by NLP</span></h1><p>Match claims to policy clauses with natural language inference, detect fraud risk, and get an explainable verdict in seconds.</p></div>
+<nav id="nav"><button class="on" data-t="analyze">🔍 Claim Analyzer</button><button data-t="nli">🧠 NLI Playground</button><button data-t="search">📑 Clause Search</button><button data-t="lib">📚 Policy Library</button><button data-t="insights">📊 Model Insights</button></nav>
+<main>
+<section class="tab on" id="analyze"><div class="grid">
+ <div class="card"><h3>Claim details</h3><div class="chips" id="samples" style="margin-bottom:6px"></div>
+  <div class="row"><div><label>Incident type</label><select id="f_incident_type"></select></div><div><label>Collision</label><select id="f_collision_type"></select></div></div>
+  <div class="row"><div><label>Severity</label><select id="f_incident_severity"></select></div><div><label>Authorities</label><select id="f_authorities_contacted"></select></div></div>
+  <div class="row"><div><label>Police report</label><select id="f_police_report_available"></select></div><div><label>Property damage</label><select id="f_property_damage"></select></div></div>
+  <div class="row"><div><label>Hobby</label><select id="f_insured_hobbies"></select></div><div><label>Occupation</label><select id="f_insured_occupation"></select></div></div>
+  <div class="row"><div><label>Total claim ($)</label><input type="number" id="f_total_claim_amount"></div><div><label>Vehicle claim ($)</label><input type="number" id="f_vehicle_claim"></div></div>
+  <div class="row"><div><label>Injury claim ($)</label><input type="number" id="f_injury_claim"></div><div><label>Property claim ($)</label><input type="number" id="f_property_claim"></div></div>
+  <div class="row"><div><label>Witnesses</label><input type="number" id="f_witnesses"></div><div><label>Bodily injuries</label><input type="number" id="f_bodily_injuries"></div></div>
+  <div class="row"><div><label>Vehicles involved</label><input type="number" id="f_number_of_vehicles_involved"></div><div><label>Months as customer</label><input type="number" id="f_months_as_customer"></div></div>
+  <div class="row"><div><label>Deductible</label><input type="number" id="f_policy_deductable"></div><div><label>Umbrella limit</label><input type="number" id="f_umbrella_limit"></div></div>
+  <label>Claim narrative (optional – auto-generated if blank)</label><textarea id="narr" placeholder="e.g. My car was stolen from the driveway overnight and I did not call the police."></textarea>
+  <button class="btn" id="go">Analyze claim</button></div>
+ <div class="stack" id="out"><div class="card empty">Pick a sample claim or fill the form, then hit <b>Analyze claim</b>.</div></div>
+</div></section>
+<section class="tab" id="nli"><div class="card" style="max-width:820px;margin:auto"><h3>Natural Language Inference</h3><p style="color:var(--mut);margin-top:-6px">Does the premise <i>entail</i>, <i>contradict</i>, or stay <i>neutral</i> toward the hypothesis?</p>
+ <label>Premise</label><textarea id="prem">This policy does NOT cover collision damage if the insured vehicle was being driven by an unlicensed driver.</textarea>
+ <label>Hypothesis</label><textarea id="hyp">The policy pays for damage when an unlicensed person is driving.</textarea>
+ <div class="chips" style="margin-top:10px" id="nliex"></div><button class="btn" id="nligo">Run inference</button><div id="nlout" style="margin-top:18px"></div></div></section>
+<section class="tab" id="search">
+  <div class="card" style="max-width:900px;margin:auto">
+    <h3>Find relevant policy clauses</h3>
+
+    <label for="q">Enter a keyword or describe a situation</label>
+
+    <input
+      type="text"
+      id="q"
+      placeholder="e.g. stolen vehicle, accident, police report"
+      autocomplete="off"
+      style="width:100%;cursor:text;pointer-events:auto;"
+    >
+
+    <button class="btn" id="qgo" type="button">
+      Search clauses
+    </button>
+
+    <div id="qout" class="stack" style="margin-top:18px"></div>
+  </div>
+</section>
+<section class="tab" id="lib"><div class="chips" id="cats" style="margin-bottom:16px"></div><div class="lib" id="libout"></div></section>
+<section class="tab" id="insights"><div id="insout"></div></section>
+</main><footer>InsureClaim AI · NLP project · SNLI + insurance fraud claims + curated policy clauses</footer>
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const api=async(p,b)=>{const r=await fetch('/api/'+p,b?{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)}:{});if(!r.ok)throw new Error((await r.json()).detail||r.statusText);return r.json()};
+let SCHEMA,STATE={},CLAUSES=[];
+$('#nav').onclick=e=>{const t=e.target.dataset.t;if(!t)return;$$('nav button').forEach(b=>b.classList.toggle('on',b===e.target));$$('.tab').forEach(s=>s.classList.toggle('on',s.id===t));if(t==='insights')insights()};
+const pct=v=>(v*100).toFixed(0)+'%';
+const nliBars=n=>`<div>${[['entailment','e'],['neutral','n'],['contradiction','c']].map(([k,c])=>`<div class="nl"><span>${k}</span><div class="bar"><div class="${c}" style="width:${n[k]*100}%"></div></div><span>${pct(n[k])}</span></div>`).join('')}</div>`;
+function gauge(p){const a=Math.PI*p,x=75-60*Math.cos(a),y=80-60*Math.sin(a),col=p>.6?'#ff4d6d':p>.35?'#ffc233':'#2ee59d';
+ return `<svg class="gauge" viewBox="0 0 150 95"><path d="M15 80A60 60 0 0 1 135 80" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="12" stroke-linecap="round"/><path d="M15 80A60 60 0 0 1 ${x} ${y}" fill="none" stroke="${col}" stroke-width="12" stroke-linecap="round" style="filter:drop-shadow(0 0 6px ${col})"/><text x="75" y="76" text-anchor="middle" fill="#fff" font-size="24" font-weight="800">${pct(p)}</text><text x="75" y="92" text-anchor="middle" fill="#9aa3c7" font-size="9">FRAUD RISK</text></svg>`}
+const clauseCard=c=>`<div class="cl ${c.rule?c.rule.status:''}"><div class="t"><b>${c.id}</b><span class="tag ${c.type}">${c.type}</span><span style="color:var(--mut)">${esc(c.category)}</span>${c.relevance?`<span style="margin-left:auto;color:var(--mut)">relevance ${pct(c.relevance)}</span>`:''}</div><p>${esc(c.text)}</p>${c.rule?`<div class="why">${{risk:'⚠️',condition:'📋',ok:'✅'}[c.rule.status]} ${esc(c.rule.reason)}</div>`:''}${c.nli?nliBars(c.nli):''}</div>`;
+async function init(){
+ try{const h=await api('health');$('#health').innerHTML=`<span class="dot on"></span>API online · ${h.engine} · ${h.clauses} clauses`}catch(e){}
+ SCHEMA=await api('schema');CLAUSES=await api('clauses');
+ for(const [k,v] of Object.entries(SCHEMA.categorical)){const el=$('#f_'+k);if(el)el.innerHTML=v.map(o=>`<option>${esc(o)}</option>`).join('')}
+ STATE={...SCHEMA.numeric_defaults};for(const k in SCHEMA.categorical)STATE[k]=SCHEMA.categorical[k][0];
+ const smp=await api('samples');$('#samples').innerHTML='<span class="chip s">Try a sample:</span>'+smp.map((s,i)=>`<span class="chip ${s.actual_fraud==='Y'?'f':'n'}" data-i="${i}" title="${s.actual_fraud==='Y'?'Labelled fraud':'Labelled genuine'}">${s.actual_fraud==='Y'?'🚩':'✔'} ${esc(s.label)}</span>`).join('');
+ $('#samples').onclick=e=>{const i=e.target.dataset.i;if(i==null)return;STATE={...STATE,...smp[i].fields};fill();run()};
+ fill();libInit()}
+function fill(){for(const k in STATE){const el=$('#f_'+k);if(el)el.value=STATE[k]}}
+function read(){$$('[id^=f_]').forEach(el=>{const k=el.id.slice(2);STATE[k]=el.tagName==='SELECT'?el.value:parseFloat(el.value)})}
+async function run(){read();const b=$('#go');b.disabled=true;b.innerHTML='<span class="spin"></span>Analyzing…';
+ try{const r=await api('claim',{...STATE,narrative:$('#narr').value});render(r)}catch(e){$('#out').innerHTML=`<div class="card empty">Error: ${esc(e.message)}</div>`}
+ b.disabled=false;b.textContent='Analyze claim'}
+$('#go').onclick=run;
+function render(r){const v=r.verdict,f=r.fraud;
+ $('#out').innerHTML=`<div class="verdict ${v.tone}">${gauge(f.probability)}<div><h2>${v.label}</h2><p>${esc(v.summary)}</p><p>Fraud level: <b>${f.level}</b></p></div></div>
+ <div class="card"><h3>🔎 Why this fraud score?</h3>${f.factors.length?f.factors.map(x=>`<div class="fx"><span>${esc(x.feature.replace(/_/g,' '))}<br><small style="color:var(--mut)">${esc(x.value)}</small></span><div class="bar"><div class="${x.impact>0?'pos':'neg'}" style="width:${Math.min(100,Math.abs(x.impact)*220)}%"></div></div><span style="color:${x.impact>0?'var(--bad)':'var(--ok)'}">${x.impact>0?'+':''}${(x.impact*100).toFixed(0)}%</span></div>`).join(''):'<span style="color:var(--mut)">No dominant factors.</span>'}</div>
+ <div class="card"><h3>📝 Claim narrative analysed</h3><p style="line-height:1.6">${esc(r.narrative)}</p><div class="chips">${r.preprocessing.tokens.map(t=>`<span class="chip s">${esc(t)}</span>`).join('')}</div></div>
+ <div class="card"><h3>📑 Policy clauses (rules + NLI)</h3><div class="stack">${r.clauses.map(clauseCard).join('')}</div></div>`;
+ if(innerWidth<950)$('#out').scrollIntoView({behavior:'smooth'})}
+// NLI
+const EX=[['Collision damage is covered regardless of fault.','The insurer pays for a crash even if the driver caused it.'],['Theft claims are NOT covered if the vehicle was left unlocked.','The stolen car was locked and the theft is covered.'],['Claims must be reported within 30 days of the incident.','The policyholder is a professional skydiver.']];
+$('#nliex').innerHTML='<span class="chip s">Examples:</span>'+EX.map((e,i)=>`<span class="chip" data-i="${i}">Example ${i+1}</span>`).join('');
+$('#nliex').onclick=e=>{const i=e.target.dataset.i;if(i==null)return;$('#prem').value=EX[i][0];$('#hyp').value=EX[i][1];nli()};
+async function nli(){const b=$('#nligo');b.disabled=true;try{const r=await api('nli',{premise:$('#prem').value,hypothesis:$('#hyp').value});const col={entailment:'ok',neutral:'warn',contradiction:'danger'}[r.label];
+ $('#nlout').innerHTML=`<div class="verdict ${col}" style="margin-bottom:14px"><div><h2>${r.label.toUpperCase()}</h2><p>Model prediction</p></div></div>${nliBars(r.probs)}<p style="color:var(--mut);font-size:.8rem">Cleaned: “${esc(r.premise_clean)}” → “${esc(r.hypothesis_clean)}”</p>`}catch(e){$('#nlout').innerHTML=esc(e.message)}b.disabled=false}
+$('#nligo').onclick=nli;
+// search
+// Clause Search
+async function searchClauses() {
+
+    const input = document.getElementById('q');
+    const button = document.getElementById('qgo');
+    const output = document.getElementById('qout');
+
+    const query = input.value.trim();
+
+    if (!query) {
+        output.innerHTML =
+            '<div class="empty">Please enter a keyword or situation to search.</div>';
+        input.focus();
+        return;
+    }
+
+    button.disabled = true;
+    button.textContent = 'Searching...';
+
+    output.innerHTML =
+        '<div class="empty">Searching policy clauses...</div>';
+
+    try {
+
+        const results = await api('search', {
+            query: query,
+            k: 5
+        });
+
+        if (!results || results.length === 0) {
+            output.innerHTML =
+                '<div class="empty">No matching policy clauses found.</div>';
+        } else {
+            output.innerHTML =
+                `<p style="color:var(--mut)">
+                    Found ${results.length} matching policy clauses.
+                </p>` +
+                results.map(clauseCard).join('');
+        }
+
+    } catch (error) {
+
+        output.innerHTML =
+            `<div class="empty">Search failed: ${esc(error.message)}</div>`;
+
+    } finally {
+
+        button.disabled = false;
+        button.textContent = 'Search clauses';
+
+    }
+}
+
+document.getElementById('qgo').addEventListener(
+    'click', searchClauses
+);
+
+document.getElementById('q').addEventListener(
+    'keydown', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            searchClauses();
+        }
+    }
+);
+// library
+function libInit(){const cats=['All',...new Set(CLAUSES.map(c=>c.category))];$('#cats').innerHTML=cats.map((c,i)=>`<span class="chip ${i?'':'f'}" data-c="${esc(c)}">${esc(c)}</span>`).join('');
+ const draw=c=>$('#libout').innerHTML=CLAUSES.filter(x=>c==='All'||x.category===c).map(clauseCard).join('');draw('All');
+ $('#cats').onclick=e=>{const c=e.target.dataset.c;if(!c)return;$$('#cats .chip').forEach(x=>x.classList.toggle('f',x===e.target));draw(c)}}
+// insights
+const cm=(m,labels,title)=>{const mx=Math.max(...m.flat());return `<div class="card"><h3>${title}</h3><table class="cm"><tr><th></th>${labels.map(l=>`<th>${l}</th>`).join('')}</tr>${m.map((r,i)=>`<tr><th>${labels[i]}</th>${r.map(v=>`<td style="background:rgba(124,92,255,${.12+.75*v/mx})">${v}</td>`).join('')}</tr>`).join('')}</table><p style="text-align:center;color:var(--mut);font-size:.75rem">rows = actual · columns = predicted</p></div>`};
+let loaded=false;async function insights(){if(loaded)return;loaded=true;const m=await api('metrics'),n=m.nli,f=m.fraud;
+ $('#insout').innerHTML=`<div class="kpis"><div class="card kpi"><small>NLI test accuracy</small><b class="grad">${pct(n.test_accuracy)}</b></div><div class="card kpi"><small>NLI macro-F1</small><b class="grad">${n.test_macro_f1}</b></div><div class="card kpi"><small>Fraud ROC-AUC</small><b class="grad">${f.test_auc}</b></div><div class="card kpi"><small>Fraud F1</small><b class="grad">${f.test_f1}</b></div><div class="card kpi"><small>Word2Vec vocab</small><b class="grad">${m.w2v.vocab.toLocaleString()}</b></div></div>
+ <div class="two">${cm(n.confusion_matrix,['ent','neu','con'],'NLI confusion matrix')}${cm(f.confusion_matrix,['genuine','fraud'],'Fraud confusion matrix')}</div>
+ <div class="card" style="margin-top:22px"><h3>Pipeline</h3><div class="chips"><span class="chip s">Tokenise</span>→<span class="chip s">Lowercase / clean (negations kept)</span>→<span class="chip s">POS-aware lemmatise</span>→<span class="chip s">TF-IDF + Word2Vec</span>→<span class="chip s">Pair features</span>→<span class="chip s">Gradient boosting NLI</span>→<span class="chip s">Policy rules + fraud model</span>→<span class="chip s">Verdict</span></div><p style="color:var(--mut);font-size:.85rem">NLI: ${esc(n.model)} (trained on ${n.train_pairs.toLocaleString()} SNLI pairs). Optional BiLSTM (notebook Assignment 4) is ensembled automatically if trained.</p></div>`}
+init();
+</script></body></html>

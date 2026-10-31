@@ -1,0 +1,10 @@
+fastapi>=0.110
+uvicorn>=0.29
+pandas>=2.0
+numpy>=1.26
+scikit-learn>=1.4
+gensim>=4.3
+nltk>=3.8
+joblib>=1.3
+# optional (BiLSTM): tensorflow>=2.15
+# optional (tests): httpx

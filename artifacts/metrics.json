@@ -1,0 +1,129 @@
+{
+  "nli": {
+    "model": "HistGradientBoosting on engineered features (overlap, TF-IDF cos, Word2Vec cos, negation, |a-b|, a*b)",
+    "train_pairs": 40000,
+    "dev_accuracy": 0.5988,
+    "test_accuracy": 0.6052,
+    "test_macro_f1": 0.6049,
+    "labels": [
+      "entailment",
+      "neutral",
+      "contradiction"
+    ],
+    "confusion_matrix": [
+      [
+        883,
+        316,
+        222
+      ],
+      [
+        219,
+        749,
+        329
+      ],
+      [
+        200,
+        293,
+        789
+      ]
+    ],
+    "report": {
+      "entailment": {
+        "precision": 0.6781874039938556,
+        "recall": 0.6213933849401829,
+        "f1-score": 0.6485493940506794,
+        "support": 1421.0
+      },
+      "neutral": {
+        "precision": 0.5515463917525774,
+        "recall": 0.5774865073245952,
+        "f1-score": 0.5642184557438795,
+        "support": 1297.0
+      },
+      "contradiction": {
+        "precision": 0.5888059701492537,
+        "recall": 0.6154446177847114,
+        "f1-score": 0.6018306636155606,
+        "support": 1282.0
+      },
+      "accuracy": 0.60525,
+      "macro avg": {
+        "precision": 0.606179921965229,
+        "recall": 0.6047748366831631,
+        "f1-score": 0.6048661711367065,
+        "support": 4000.0
+      },
+      "weighted avg": {
+        "precision": 0.6084773062274262,
+        "recall": 0.60525,
+        "f1-score": 0.6062317342002439,
+        "support": 4000.0
+      }
+    }
+  },
+  "fraud": {
+    "model": "HistGradientBoosting (balanced)",
+    "rows": 1000,
+    "fraud_rate": 0.247,
+    "test_auc": 0.8271,
+    "test_accuracy": 0.83,
+    "test_f1": 0.6731,
+    "confusion_matrix": [
+      [
+        131,
+        20
+      ],
+      [
+        14,
+        35
+      ]
+    ]
+  },
+  "w2v": {
+    "vocab": 6756,
+    "similar_cover": [
+      [
+        "partially",
+        0.6185643076896667
+      ],
+      [
+        "rest",
+        0.606658935546875
+      ],
+      [
+        "cutout",
+        0.6018205285072327
+      ],
+      [
+        "cartoon",
+        0.5851708054542542
+      ],
+      [
+        "lay",
+        0.5440292954444885
+      ]
+    ],
+    "similar_damage": [
+      [
+        "insured",
+        0.9604670405387878
+      ],
+      [
+        "insure",
+        0.9202873706817627
+      ],
+      [
+        "collision",
+        0.9123691320419312
+      ],
+      [
+        "theft",
+        0.9029181003570557
+      ],
+      [
+        "limit",
+        0.8924497961997986
+      ]
+    ]
+  }
+}
